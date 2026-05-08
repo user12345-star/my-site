@@ -215,14 +215,17 @@ WSGI_APPLICATION = 'korochki.wsgi.application'
 
 import dj_database_url
 
+# Если URL нет, используем прямую строку подключения к Supabase (ЗАМЕНА ПАРОЛЯ!)
+if not db_url:
+    db_url = 'postgresql://postgres:12345lina12345lin@db.xquxdvlkcvefjtalface.supabase.co:5432/postgres'
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
+        default=db_url,
         conn_max_age=600,
         conn_health_checks=True,
     )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
