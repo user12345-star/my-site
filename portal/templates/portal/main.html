@@ -1,0 +1,217 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+<div class="container">
+        <div class="catalog">
+            <h3>КАТАЛОГ</h3>
+            <ul>
+  <p><b>Цветы:</b></p>
+  <li><a href="{% url 'category' category_name='roses' %}">Розы</a></li>
+  <li><a href="{% url 'category' category_name='tulips' %}">Тюльпаны</a></li>
+  <li><a href="{% url 'category' category_name='peonies' %}">Пионы</a></li>
+  <li><a href="{% url 'category' category_name='lilies' %}">Лилии</a></li>
+  <li><a href="{% url 'category' category_name='daisies' %}">Ромашки</a></li>
+  <li><a href="{% url 'category' category_name='baskets' %}">Корзины с цветами</a></li>
+</ul>
+<ul>
+  <p><b>Букеты:</b></p>
+  <li><a href="{% url 'category' category_name='classic' %}">Классические</a></li>
+  <li><a href="{% url 'category' category_name='original' %}">Оригинальные</a></li>
+  <li><a href="{% url 'category' category_name='edible' %}">Съедобные</a></li>
+  <li><a href="{% url 'category' category_name='wedding' %}">Свадебные</a></li>
+</ul>
+            <div class="sale">
+  {% for promo in promotions %}
+    <a href="{% url 'sale' %}">
+      <img src="{{ promo.image.url }}" alt="{{ promo.title }}">
+    </a>
+  {% endfor %}
+</div>
+          </div>
+
+          <script>
+            addEventListener("load", function () {
+            document.getElementById("im1").addEventListener("click", function () {
+                document.getElementById("im1").requestFullscreen();
+            });
+            document.getElementById("im2").addEventListener("click", function () {
+                document.getElementById("im2").requestFullscreen();
+            });
+            document.getElementById("im3").addEventListener("click", function () {
+                document.getElementById("im3").requestFullscreen();
+            });
+            document.getElementById("im4").addEventListener("click", function () {
+                document.getElementById("im4").requestFullscreen();
+            });
+        });
+        </script>
+
+        <div class="main">
+         <div class="hero">
+  {% if user.is_authenticated %}
+    <h1>Добро пожаловать в магазин "Подсолнух"</h1>
+    <h2>Наша цель - дарить радость</h2>
+    <a href="{% url 'products' %}"><button>Перейти к покупкам</button></a>
+  {% else %}
+    <h1>Добро пожаловать в магазин "Подсолнух"</h1>
+    <h2>Чтобы оформить заказ, пожалуйста, зарегистрируйтесь</h2>
+    <a href="{% url 'register' %}"><button>Зарегистрироваться</button></a>
+  {% endif %}
+</div>
+
+
+            <div class="about">
+                <h2>О НАС</h2>
+                <p>Мы – команда опытных флористов, которые с любовью создают неповторимые
+                букеты и композиции из свежих цветов.
+                У нас вы найдете самые свежие цветы,  розы, тюльпаны,
+                и другие великолепные экзотические цветы, которые помогут вам
+                выразить свои чувства и  сделать любой праздник незабываемым.</p>
+                <div class="about-photo">
+                  <img src="{% static 'portal/img/place1.webp' %}" id="im1">
+                  <img src="{% static 'portal/img/place2.jpg' %}" id="im2">
+                  <img src="{% static 'portal/img/place3.webp' %}" id="im3">
+                  <img src="{% static 'portal/img/place4.jpg' %}" id="im4">
+
+                </div>
+                <a href="{% url 'about' %}" class="about-button">Подробнее...</a>
+              </div>
+
+              <div class="services" id="servise">
+                <h3>ЧТО МЫ ПРЕДЛАГАЕМ</h3>
+                <div class="services-block">
+                  <div class="service">
+                    <img src="{% static 'portal/img/service1.png' %}">
+                    <p><b>Доставка</b><br> свежих цветов по городу.
+                      Оперативно и надежно. Удобная цена.</p>
+                  </div>
+                  <div class="service">
+                    <img src="{% static 'portal/img/service2.png' %}">
+                    <p><b>Уникальные букеты</b><br> и композиции на любой вкус.
+                      Наши флористы создадут шедевр.</p>
+                  </div>
+                  <div class="service">
+                    <img src="{% static 'portal/img/service3.png' %}">
+                    <p><b>Доставка цветов по случаям:</b><br> дни рождения, свадьбы.
+                      Мы поможем подобрать идеальный букет.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="advantages" id="advantages">
+                <h3>НАШИ ПРЕИМУЩЕСТВА</h3>
+                <div class="advantages-block">
+                  <div class="advantage">
+                    <img src="{% static 'portal/img/adv1.png' %}" >
+                    <p>Свежие цветы</p>
+                  </div>
+                  <div class="advantage">
+                    <img src="{% static 'portal/img/adv2.png' %}" >
+                    <p>Высокое качество</p>
+                  </div>
+                  <div class="advantage">
+                    <img src="{% static 'portal/img/adv3.png' %}" >
+                    <p>Широкий выбор</p>
+                  </div>
+                  <div class="advantage">
+                    <img src="{% static 'portal/img/adv4.png' %}" >
+                    <p>Недорогие цены</p>
+                  </div>
+                  <div class="advantage">
+                    <img src="{% static 'portal/img/adv5.png' %}" >
+                    <p>Экологичность</p>
+                  </div>
+                  <div class="advantage">
+                    <img src="{% static 'portal/img/adv6.png' %}">
+                    <p>Удобный выбор</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="portfolio">
+                <h2>ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
+
+                <div class="portfolio-cards">
+  {% for product in products %}
+    <div class="portfolio-card">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}">
+      <div class="portfolio-text">
+        <h3>{{ product.name }}</h3>
+        <p class="price">Цена: {{ product.price }} руб.</p>
+        {% if user.is_authenticated %}
+    <a href="{% url 'product_detail' product.pk %}" class="more">Подробнее...</a>
+{% else %}
+    <a href="{% url 'register' %}" class="more">Подробнее...</a>
+{% endif %}
+      </div>
+    </div>
+  {% endfor %}
+                </div>
+              <div>
+                <a href="{% url 'products' %}"><button class="portfolio-button">Посмотреть все</button></a>
+              </div>
+              </div>
+
+ {% if reviews %}
+<div class="reviews">
+  <h2>ОТЗЫВЫ</h2>
+  {% for review in reviews %}
+    <div class="review">
+      {% if review.user.userprofile and review.user.userprofile.profile_photo %}
+        <img src="{{ review.user.userprofile.profile_photo.url }}" alt="Фото пользователя">
+      {% else %}
+        <img src="{% static 'portal/img/user.png' %}" alt="Фото пользователя">
+      {% endif %}
+      <div class="review-info">
+        <span class="review-name">{{ review.user.userprofile.first_name }} {{ review.user.userprofile.last_name }}</span>
+        <p class="review-text">{{ review.review_text }}</p>
+        <span class="review-date">{{ review.date_created|date:"d.m.Y" }}</span>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+            <div class="cta" id="cta">
+    <h2 id="ctaform">СВЯЗАТЬСЯ С НАМИ</h2>
+    {% if sent %}
+        <p style="color: green;">Ваше сообщение отправлено!</p>
+    {% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+            </div>
+
+            <div class="contacts" id="contact">
+              <div class="contact">
+                <h2>КОНТАКТЫ</h2>
+                <div class="contact-info">
+                  <div>
+                    <p>Приморский край, г. Лесозаводск, ул. Калиненская, 29</p>
+                  </div>
+                  <div>
+                    <p>Режим работы: с 9:00 до 21:00</p>
+                  </div>
+                  <div>
+                    <p>Телефон: +7 (950) 288-48-27</p>
+                  </div>
+                  <div>
+                    <p>Почта: <a>podsolnyx@mail.ru</a></p>
+                  </div>
+                  <div>
+                    <p>Телеграм канал: <a href="https://t.me/podsolnyx_lesozavodsk">@podsolnyx_lesozavodsk</a></p>
+                  </div>
+                </div>
+                <div class="map">
+                  <iframe src="https://maps.google.com/maps?q=Приморский+край,+Лесозаводск,+ул.+Калиненская,+29&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

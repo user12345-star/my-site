@@ -1,0 +1,143 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+<div class="container">
+        <div class="catalog">
+            <h3>КАТАЛОГ</h3>
+            <ul>
+  <p><b>Цветы:</b></p>
+  <li><a href="{% url 'category' category_name='roses' %}">Розы</a></li>
+  <li><a href="{% url 'category' category_name='tulips' %}">Тюльпаны</a></li>
+  <li><a href="{% url 'category' category_name='peonies' %}">Пионы</a></li>
+  <li><a href="{% url 'category' category_name='lilies' %}">Лилии</a></li>
+  <li><a href="{% url 'category' category_name='daisies' %}">Ромашки</a></li>
+  <li><a href="{% url 'category' category_name='baskets' %}">Корзины с цветами</a></li>
+</ul>
+<ul>
+  <p><b>Букеты:</b></p>
+  <li><a href="{% url 'category' category_name='classic' %}">Классические</a></li>
+  <li><a href="{% url 'category' category_name='original' %}">Оригинальные</a></li>
+  <li><a href="{% url 'category' category_name='edible' %}">Съедобные</a></li>
+  <li><a href="{% url 'category' category_name='wedding' %}">Свадебные</a></li>
+</ul>
+           <div class="sale">
+  {% for promo in promotions %}
+    <a href="{% url 'sale' %}">
+      <img src="{{ promo.image.url }}" alt="{{ promo.title }}">
+    </a>
+  {% endfor %}
+</div>
+          </div>
+
+        <div class="main">
+
+            <h2>МОЙ ПРОФИЛЬ</h2>
+        <div class="user">
+    <div class="profile">
+      {% if profile.profile_photo %}
+    <img src="{{ profile.profile_photo.url }}" alt="Фото профиля">
+{% else %}
+    <img src="{% static 'portal/img/user.png' %}" alt="Фото профиля">
+{% endif %}
+        <p id="user-name">{{ profile.first_name }} {{ profile.last_name }}</p>
+        <button class="edit" id="edit-profile-btn">Редактировать</button>
+        <button class="save" id="save-profile-btn" style="display:none;">Сохранить</button>
+        <br>
+    <a href="{% url 'logout' %}">Выйти</a>
+    </div>
+    <div class="data" id="profile-data">
+        <h2>Мои данные</h2>
+        <p>Имя: <span id="display-first_name">{{ profile.first_name }}</span></p>
+        <p>Фамилия: <span id="display-last_name">{{ profile.last_name }}</span></p>
+        <p>Email: <span id="display-email">{{ profile.email }}</span></p>
+        <p>Телефон: <span id="display-phone">{{ profile.phone }}</span></p>
+    </div>
+
+    <div id="edit-form" style="display:none;">
+        <form id="profile-edit-form" method="POST" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    <input type="hidden" name="update_profile" value="true">
+    <label>Фото профиля:</label><br>
+    <input type="file" name="profile_photo" accept="image/*"><br><br>
+
+    <label>Имя:</label>
+    <input type="text" name="first_name" value="{{ profile.first_name }}"><br>
+
+    <label>Фамилия:</label>
+    <input type="text" name="last_name" value="{{ profile.last_name }}"><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" value="{{ profile.email }}"><br>
+
+    <label>Телефон:</label>
+    <input type="text" name="phone" value="{{ profile.phone }}"><br>
+
+    <button type="submit">Сохранить</button>
+</form>
+    </div>
+</div>
+
+<div class="history" id="history">
+    <h2>История заказов</h2>
+    {% if orders.exists %}
+        {% for order in orders %}
+            <div class="history-block">
+                <div class="history-photo">
+                        <img src="{{ order.product.image.url }}" alt="Изображение товара">
+                   </div>
+                <div class="history-text">
+                    <p>Товар: {{ order.product.name }}</p>
+                <p>Количество: {{ order.quantity }}</p>
+                <p>Статус: {{ order.get_status_display }}</p>
+                <p>Дата заказа: {{ order.order_date }}</p>
+                    </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="history-block">У вас пока нет заказов</div>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+        document.getElementById('profile-data').style.display = 'none';
+        document.getElementById('edit-form').style.display = 'block';
+        document.getElementById('edit-profile-btn').style.display = 'none';
+        document.getElementById('save-profile-btn').style.display = 'inline-block';
+    });
+
+    document.getElementById('save-profile-btn').addEventListener('click', function() {
+        document.getElementById('profile-edit-form').submit();
+    });
+</script>
+
+{% if has_orders %}
+<div class="review-user">
+    <h2>Оставьте отзыв</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+</div>
+{% endif %}
+
+      <div class="cta" id="cta">
+    <h2 id="ctaform">СВЯЗАТЬСЯ С НАМИ</h2>
+    {% if sent %}
+        <p style="color: green;">Ваше сообщение отправлено!</p>
+    {% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

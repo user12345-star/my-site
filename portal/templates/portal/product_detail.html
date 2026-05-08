@@ -1,0 +1,97 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+<div class="container">
+        <div class="catalog">
+            <h3>КАТАЛОГ</h3>
+             <ul>
+  <p><b>Цветы:</b></p>
+  <li><a href="{% url 'category' category_name='roses' %}">Розы</a></li>
+  <li><a href="{% url 'category' category_name='tulips' %}">Тюльпаны</a></li>
+  <li><a href="{% url 'category' category_name='peonies' %}">Пионы</a></li>
+  <li><a href="{% url 'category' category_name='lilies' %}">Лилии</a></li>
+  <li><a href="{% url 'category' category_name='daisies' %}">Ромашки</a></li>
+  <li><a href="{% url 'category' category_name='baskets' %}">Корзины с цветами</a></li>
+</ul>
+<ul>
+  <p><b>Букеты:</b></p>
+  <li><a href="{% url 'category' category_name='classic' %}">Классические</a></li>
+  <li><a href="{% url 'category' category_name='original' %}">Оригинальные</a></li>
+  <li><a href="{% url 'category' category_name='edible' %}">Съедобные</a></li>
+  <li><a href="{% url 'category' category_name='wedding' %}">Свадебные</a></li>
+</ul>
+            <div class="sale">
+  {% for promo in promotions %}
+    <a href="{% url 'sale' %}">
+      <img src="{{ promo.image.url }}" alt="{{ promo.title }}">
+    </a>
+  {% endfor %}
+</div>
+          </div>
+
+          <script>
+            addEventListener("load", function () {
+            document.getElementById("im1").addEventListener("click", function () {
+                document.getElementById("im1").requestFullscreen();
+            });
+            document.getElementById("im2").addEventListener("click", function () {
+                document.getElementById("im2").requestFullscreen();
+            });
+            document.getElementById("im3").addEventListener("click", function () {
+                document.getElementById("im3").requestFullscreen();
+            });
+        });
+        </script>
+
+        <div class="main">
+            <a href="javascript:history.back()"><button class="back" id="flowers">← назад</button></a>
+           <div class="product-detail">
+  <div class="product-detail-photo">
+    <img src="{{ product.image.url }}" class="main-photo" alt="{{ product.name }}">
+    <div class="photos">
+        <img src="{{ product.image.url }}" class="dop-photo" id="im1" alt="Дополнительное изображение 1">
+      {% if product.additional_image_2 %}
+        <img src="{{ product.additional_image_2.url }}" class="dop-photo" id="im2" alt="Дополнительное изображение 2">
+      {% endif %}
+      {% if product.additional_image_3 %}
+        <img src="{{ product.additional_image_3.url }}" class="dop-photo" id="im3" alt="Дополнительное изображение 3">
+      {% endif %}
+    </div>
+  </div>
+  <div class="text-product-detail">
+    <h1>{{ product.name }}</h1>
+    <h3>{{ product.price }} руб.</h3>
+    <p>Доставка 100-500 руб.</p>
+    <div class="product-button">
+      <a href="{% url 'order' %}?product_id={{ product.id }}"><button class="buy">Купить</button></a>
+    </div>
+    <div class="inf-product-detail">
+      <p class="name-inf"><b>Состав:</b></p>
+      <p>{{ product.composition|linebreaksbr }}</p>
+    </div>
+    <div class="inf-product-detail">
+      <p class="name-inf"><b>Размер:</b></p>
+      <p>↔ Ширина - {{ product.width }} см</p>
+      <p>↕ Высота - {{ product.length }} см</p>
+    </div>
+  </div>
+</div>
+
+            <div class="cta" id="cta">
+    <h2 id="ctaform">СВЯЗАТЬСЯ С НАМИ</h2>
+    {% if sent %}
+        <p style="color: green;">Ваше сообщение отправлено!</p>
+    {% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

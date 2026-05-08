@@ -1,0 +1,73 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+<div class="container">
+        <div class="catalog">
+            <h3>КАТАЛОГ</h3>
+          <ul>
+  <p><b>Цветы:</b></p>
+  <li><a href="{% url 'category' category_name='roses' %}">Розы</a></li>
+  <li><a href="{% url 'category' category_name='tulips' %}">Тюльпаны</a></li>
+  <li><a href="{% url 'category' category_name='peonies' %}">Пионы</a></li>
+  <li><a href="{% url 'category' category_name='lilies' %}">Лилии</a></li>
+  <li><a href="{% url 'category' category_name='daisies' %}">Ромашки</a></li>
+  <li><a href="{% url 'category' category_name='baskets' %}">Корзины с цветами</a></li>
+</ul>
+<ul>
+  <p><b>Букеты:</b></p>
+  <li><a href="{% url 'category' category_name='classic' %}">Классические</a></li>
+  <li><a href="{% url 'category' category_name='original' %}">Оригинальные</a></li>
+  <li><a href="{% url 'category' category_name='edible' %}">Съедобные</a></li>
+  <li><a href="{% url 'category' category_name='wedding' %}">Свадебные</a></li>
+</ul>
+           <div class="sale">
+  {% for promo in promotions %}
+    <a href="{% url 'sale' %}">
+      <img src="{{ promo.image.url }}" alt="{{ promo.title }}">
+    </a>
+  {% endfor %}
+</div>
+          </div>
+
+        <div class="main">
+          <a href="javascript:history.back()"><button class="back" id="flowers">← назад</button></a>
+            <div class="portfolio">
+                <h2>ВСЕ ТОВАРЫ</h2>
+
+                <div class="portfolio-cards">
+                   {% for product in products %}
+    <div class="portfolio-card">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}">
+      <div class="portfolio-text">
+        <h3>{{ product.name }}</h3>
+        <p class="price">Цена: {{ product.price }} руб.</p>
+       {% if user.is_authenticated %}
+    <a href="{% url 'product_detail' product.id %}" class="more">Подробнее...</a>
+{% else %}
+    <a href="{% url 'register' %}" class="more">Подробнее...</a>
+{% endif %}
+      </div>
+    </div>
+  {% endfor %}
+              </div>
+            </div>
+
+            <div class="cta" id="cta">
+    <h2 id="ctaform">СВЯЗАТЬСЯ С НАМИ</h2>
+    {% if sent %}
+        <p style="color: green;">Ваше сообщение отправлено!</p>
+    {% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

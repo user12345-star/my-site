@@ -1,0 +1,64 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+ <div class="container">
+        <div class="catalog">
+            <h3>КАТАЛОГ</h3>
+             <ul>
+  <p><b>Цветы:</b></p>
+  <li><a href="{% url 'category' category_name='roses' %}">Розы</a></li>
+  <li><a href="{% url 'category' category_name='tulips' %}">Тюльпаны</a></li>
+  <li><a href="{% url 'category' category_name='peonies' %}">Пионы</a></li>
+  <li><a href="{% url 'category' category_name='lilies' %}">Лилии</a></li>
+  <li><a href="{% url 'category' category_name='daisies' %}">Ромашки</a></li>
+  <li><a href="{% url 'category' category_name='baskets' %}">Корзины с цветами</a></li>
+</ul>
+<ul>
+  <p><b>Букеты:</b></p>
+  <li><a href="{% url 'category' category_name='classic' %}">Классические</a></li>
+  <li><a href="{% url 'category' category_name='original' %}">Оригинальные</a></li>
+  <li><a href="{% url 'category' category_name='edible' %}">Съедобные</a></li>
+  <li><a href="{% url 'category' category_name='wedding' %}">Свадебные</a></li>
+</ul>
+            <div class="sale">
+  {% for promo in promotions %}
+    <a href="{% url 'sale' %}">
+      <img src="{{ promo.image.url }}" alt="{{ promo.title }}">
+    </a>
+  {% endfor %}
+</div>
+          </div>
+
+        <div class="main">
+            <a href="javascript:history.back()"><button class="back" id="flowers">← назад</button></a>
+
+          <h2>РЕГИСТРАЦИЯ</h2>
+<form method="post" class="register">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="text-register">Нажимая "Зарегистрироваться", Вы соглашаетесь с нашей политикой конфиденциальности,
+    в которой подробно описаны способы обработки Ваших персональных данных.</p>
+    <label class="box">
+        <input type="checkbox" required> Я согласен с условиями
+    </label>
+    <button type="submit" name="register">Зарегистрироваться</button>
+</form>
+
+<br>
+
+            <h2>ВХОД</h2>
+ <form method="post" class="login">
+    {% csrf_token %}
+     <label>Логин:</label>
+    <input type="text" name="username" placeholder="Логин">
+     <label>Пароль:</label>
+    <input type="password" name="password" placeholder="Пароль">
+    <button type="submit" name="login" class="form_btn">Войти</button>
+  </form>
+
+        </div>
+    </div>
+
+{% endblock %}

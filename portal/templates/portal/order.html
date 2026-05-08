@@ -1,0 +1,56 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+<div class="container">
+        <div class="catalog">
+            <h3>КАТАЛОГ</h3>
+            <ul>
+  <p><b>Цветы:</b></p>
+  <li><a href="{% url 'category' category_name='roses' %}">Розы</a></li>
+  <li><a href="{% url 'category' category_name='tulips' %}">Тюльпаны</a></li>
+  <li><a href="{% url 'category' category_name='peonies' %}">Пионы</a></li>
+  <li><a href="{% url 'category' category_name='lilies' %}">Лилии</a></li>
+  <li><a href="{% url 'category' category_name='daisies' %}">Ромашки</a></li>
+  <li><a href="{% url 'category' category_name='baskets' %}">Корзины с цветами</a></li>
+</ul>
+<ul>
+  <p><b>Букеты:</b></p>
+  <li><a href="{% url 'category' category_name='classic' %}">Классические</a></li>
+  <li><a href="{% url 'category' category_name='original' %}">Оригинальные</a></li>
+  <li><a href="{% url 'category' category_name='edible' %}">Съедобные</a></li>
+  <li><a href="{% url 'category' category_name='wedding' %}">Свадебные</a></li>
+</ul>
+            <div class="sale">
+  {% for promo in promotions %}
+    <a href="{% url 'sale' %}">
+      <img src="{{ promo.image.url }}" alt="{{ promo.title }}">
+    </a>
+  {% endfor %}
+</div>
+          </div>
+
+        <div class="main">
+            <a href="javascript:history.back()"><button class="back" id="flowers">← назад</button></a>
+
+           <form action="{% url 'order' %}?product_id={{ product.id }}" method="post" class="order">
+     {% csrf_token %}
+  <h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2>
+
+  <div class="form-fields">
+    {{ order_form.as_p }}
+  </div>
+
+  <p class="text-order">Если вы выбрали оплату сразу, мы свяжемся с вами для подтверждения и оформления оплаты.</p>
+  <p>Нажимая "Отправить", Вы соглашаетесь с нашей политикой конфиденциальности, в которой подробно описаны способы обработки Ваших персональных данных.</p>
+  <label>
+      <input type="checkbox" required> Я согласен с условиями
+  </label>
+  <button type="submit">Отправить заказ</button>
+</form>
+
+        </div>
+    </div>
+
+{% endblock %}
