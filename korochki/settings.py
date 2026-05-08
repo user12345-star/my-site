@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +25,12 @@ SECRET_KEY = 'django-insecure-b^%(#*i073i&0g#8%%ctzp5=^rr-wh_514ov_7@^^jcfi$a3ej
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'my-site2-one.vercel.app',       # Ваш основной домен Vercel
+    '.vercel.app',                   # Разрешить все поддомены vercel.app (для preview-деплоев)
+]
 
 # Application definition
 
